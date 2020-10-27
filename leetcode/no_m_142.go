@@ -1,5 +1,6 @@
 package leetcode
 
+//DONE
 func detectCycle(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
