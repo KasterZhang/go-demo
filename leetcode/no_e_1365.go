@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+//DONE
 func smallerNumbersThanCurrent1365S1(nums []int) []int {
 	rowId := make([]int, len(nums), len(nums))
 	result := make([]int, len(nums), len(nums))
