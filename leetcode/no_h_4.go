@@ -1,59 +1,54 @@
 package leetcode
 
-import (
-	"fmt"
-)
-
-//TODO
+//DONE
 func findMedianSortedArrays4S1(nums1 []int, nums2 []int) float64 {
-	l1 := len(nums1)
-	l2 := len(nums2)
-	l := l1 + l2
-	target := l / 2
-	even := false
-	if l%2 == 0 {
-		//even
-		even = true
-	} else {
-		//odd
+	odd := false
+	l1, l2 := len(nums1), len(nums2)
+	if (l1+l2)&1 == 1 {
+		odd = true
 	}
-	if l1 == 0 {
-		if even {
-			return (float64(nums2[target]) + float64(nums2[target-1])) / 2
+	step := (l1 + l2 - 1) / 2
+	for step != -1 {
+		v1, v2 := -1, -1
+		if len(nums1) > 0 {
+			v1 = nums1[len(nums1)-1]
 		}
-		return float64(nums2[target])
-	} else if l2 == 0 {
-		if even {
-			return (float64(nums1[target]) + float64(nums1[target-1])) / 2
+		if len(nums2) > 0 {
+			v2 = nums2[len(nums2)-1]
 		}
-		return float64(nums1[target])
+		if step == 0 {
+			vv := -1
+			if odd {
+				if v1 > v2 {
+					return float64(v1)
+				}
+				return float64(v2)
+			}
+			if v1 >= v2 {
+				nums1 = nums1[:len(nums1)-1]
+				if len(nums1) > 0 {
+					vv = nums1[len(nums1)-1]
+				}
+				if vv > v2 {
+					return (float64(v1) + float64(vv)) / 2
+				}
+				return (float64(v1) + float64(v2)) / 2
+			}
+			nums2 = nums2[:len(nums2)-1]
+			if len(nums2) > 0 {
+				vv = nums2[len(nums2)-1]
+			}
+			if vv > v1 {
+				return (float64(vv) + float64(v2)) / 2
+			}
+			return (float64(v1) + float64(v2)) / 2
+		}
+		if v1 >= v2 {
+			nums1 = nums1[:len(nums1)-1]
+		} else if v1 < v2 {
+			nums2 = nums2[:len(nums2)-1]
+		}
+		step--
 	}
-	for {
-		t1 := len(nums1) / 2
-		t2 := len(nums2) / 2
-		fmt.Printf("--------%d--------\n", target)
-		// fmt.Println("n1 mid location", t1, "n2 mid location", t2)
-		fmt.Println("nums1", nums1, "nums2", nums2)
-		fmt.Println("n1 mid value", nums1[t1], "n2 mid value", nums2[t2])
-		if target <= 1 {
-			break
-		}
-		if nums1[t1] >= nums2[t2] {
-			target = target - t2
-			nums1 = nums1[:t1+1]
-			nums2 = nums2[t2:]
-		} else {
-			target = target - t1
-			nums1 = nums1[t1:]
-			nums2 = nums2[:t2+1]
-		}
-	}
-	fmt.Println(even, "nums1", nums1, "nums2", nums2)
-	if even {
-		return (float64(nums1[0]) + float64(nums2[0])) / 2
-	} else if len(nums1) == 1 {
-		return float64(nums1[0])
-	} else {
-		return float64(nums2[0])
-	}
+	return -1
 }
