@@ -1,6 +1,28 @@
 package leetcode
 
-func sortedSquares977(A []int) []int {
+//GOOD
+func sortedSquares977S1(A []int) []int {
+	result := make([]int, len(A))
+	p0, p1, index := 0, len(A)-1, len(A)-1
+	s0, s1 := A[p0]*A[p0], A[p1]*A[p1]
+	for p0 != p1 {
+		if s0 >= s1 {
+			result[index] = s0
+			p0++
+			s0 = A[p0] * A[p0]
+		} else {
+			result[index] = s1
+			p1--
+			s1 = A[p1] * A[p1]
+		}
+		index--
+	}
+	result[0] = s0
+	return result
+}
+
+//BAD
+func sortedSquares977S2(A []int) []int {
 	result, b, c := make([]int, 0, len(A)), []int{}, []int{}
 	for _, v := range A {
 		if v <= 0 {
