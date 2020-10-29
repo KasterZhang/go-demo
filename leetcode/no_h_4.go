@@ -1,7 +1,12 @@
 package leetcode
 
-//DONE
+//TODO log(m+n)
 func findMedianSortedArrays4S1(nums1 []int, nums2 []int) float64 {
+	return 0
+}
+
+//DONE
+func findMedianSortedArrays4S2(nums1 []int, nums2 []int) float64 {
 	odd := false
 	l1, l2 := len(nums1), len(nums2)
 	if (l1+l2)&1 == 1 {
