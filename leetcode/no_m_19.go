@@ -7,6 +7,7 @@ package leetcode
  *     Next *ListNode
  * }
  */
+//TODO
 func removeNthFromEnd19(head *ListNode, n int) *ListNode {
 	result := head
 	var pre, tail *ListNode = result, result
@@ -30,9 +31,8 @@ func removeNthFromEnd19(head *ListNode, n int) *ListNode {
 	}
 	if preCount != 0 {
 		return result.Next
-	} else {
-		pre.Next = tail
 	}
+	pre.Next = tail
 
 	return result
 }
