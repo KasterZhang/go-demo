@@ -4,59 +4,47 @@ import (
 	"fmt"
 )
 
-//TODO
+//DONE
 func sortColors75S1(nums []int) {
-	index0, index2 := 0, len(nums)-1
-	for i, n := range nums {
-		if n == 0 {
-			temp := nums[index0]
-			fmt.Println("temp", temp, "n", n, "i", i, "index0", index0)
-			fmt.Println("nums", nums)
-			nums[index0] = n
-			nums[i] = temp
-			fmt.Println("nums", nums)
-			index0++
-		}
-		if n == 2 && index2 > i {
-			temp := nums[index2]
-			fmt.Println("temp", temp, "n", n, "i", i, "index2", index2)
-			fmt.Println("nums", nums)
-			nums[index2] = n
-			nums[i] = temp
-			fmt.Println("nums", nums)
-			index2--
-		}
-		fmt.Println("-------------")
-		fmt.Println(index0, index2)
+	count, p0, p2 := 0, 0, len(nums)-1
+	if p0 == p2 {
+		return
 	}
-	fmt.Println(nums)
-}
+	for i, n := range nums {
+		for {
+			if count >= len(nums) || i > p2 {
+				return
+			}
+			if n == 2 {
+				if i != p2 {
+					n = nums[p2]
+					nums[p2] = 2
+					nums[i] = n
+					p2--
+				} else {
+					p2 = i - 1
+					break
+				}
+				continue
+			}
+			if n == 0 {
+				if i != p0 {
+					n = nums[p0]
+					nums[p0] = 0
+					nums[i] = n
+					p0++
+				} else {
+					p0 = i + 1
+					break
+				}
+				continue
+			}
+			break
 
-// index0, index1 := 0, 0
-// for i, n := range nums {
-// 	if n == 0 {
-// 		temp := nums[index0]
-// 		fmt.Println("temp", temp, "n", n, "i", i, "index0", index0)
-// 		fmt.Println("nums", nums)
-// 		nums[index0] = n
-// 		nums[i] = temp
-// 		fmt.Println("nums", nums)
-// 		index0++
-// 		index1++
-// 	}
-// 	if n == 1 {
-// 		temp := nums[index1]
-// 		fmt.Println("temp", temp, "n", n, "i", i, "index1", index1)
-// 		fmt.Println("nums", nums)
-// 		nums[index1] = n
-// 		nums[i] = temp
-// 		fmt.Println("nums", nums)
-// 		index1++
-// 	}
-// 	fmt.Println("-------------")
-// 	fmt.Println(index0, index1)
-// }
-// fmt.Println(nums)
+		}
+		count++
+	}
+}
 
 //DONE append替换首元素并位移不算原地操作 且复杂度不为n
 func sortColors75S2(nums []int) {
