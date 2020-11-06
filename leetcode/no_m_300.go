@@ -1,5 +1,6 @@
 package leetcode
 
+//DONE
 func lengthOfLIS300(nums []int) int {
 	if len(nums) == 0 {
 		return 0
