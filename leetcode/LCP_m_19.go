@@ -1,56 +1,51 @@
 package leetcode
 
-import "fmt"
-
-//TODO
+//DONE
 func minimumOperationsLCP19(leaves string) int {
-	result := 0
-	if leaves[0] != 'r' {
-		result++
-		leaves = leaves[1:]
+	dp := make([][]int, 3)
+	for i := range dp {
+		line := make([]int, len(leaves))
+		dp[i] = line
 	}
-	if leaves[len(leaves)-1] != 'r' {
-		result++
-		leaves = leaves[:len(leaves)-1]
+	count := 0
+	for i, n := range leaves[:len(leaves)-2] {
+		if n != 'r' {
+			count++
+		}
+		dp[0][i] = count
 	}
 
-	left, right, temp := cut(leaves, 'r')
-	fmt.Println("temp", temp, "left", left, "right", right)
-	if temp == leaves {
-		if left == 0 {
-			return 2
+	for i, n := range leaves[1 : len(leaves)-1] {
+		temp := 0
+		if n != 'y' {
+			temp = 1
 		}
-		return 1
+		if i == 0 {
+			dp[1][i+1] = dp[0][i] + temp
+			continue
+		}
+		if dp[0][i] < dp[1][i] {
+			dp[1][i+1] = dp[0][i] + temp
+		} else {
+			dp[1][i+1] = dp[1][i] + temp
+		}
 	}
-	if left == 0 {
-		result++
-	}
-	if right == 0 {
-		result++
-	}
-	leaves = temp
-	fmt.Println("result", result, "left", left, "right", right, "leaves", leaves)
-	return result
-}
 
-func cut(leaves string, target byte) (int, int, string) {
-	left, right, start, end, lastIndex := 0, 0, -1, -1, len(leaves)-1
-	for i := range leaves {
-		if start != -1 && end != -1 {
-			leaves = leaves[start : end+1]
-			break
+	for i, n := range leaves[2:] {
+		temp := 0
+		if n != 'r' {
+			temp = 1
 		}
-		if start == -1 && leaves[i] != target {
-			start = i
+		if i == 0 {
+			dp[2][i+2] = dp[1][i+1] + temp
 		} else {
-			left++
-		}
-		if end == -1 && leaves[lastIndex-i] != target {
-			end = lastIndex - i
-		} else {
-			right++
+			if dp[1][i+1] < dp[2][i+1] {
+				dp[2][i+2] = dp[1][i+1] + temp
+			} else {
+				dp[2][i+2] = dp[2][i+1] + temp
+			}
 		}
 	}
-	fmt.Println(start, end)
-	return left, right, leaves
+
+	return dp[2][len(leaves)-1]
 }
