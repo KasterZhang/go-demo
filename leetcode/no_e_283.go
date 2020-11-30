@@ -1,5 +1,6 @@
 package leetcode
 
+//DONE
 func moveZeroes283S1(nums []int) {
 	if len(nums) <= 1 {
 		return
