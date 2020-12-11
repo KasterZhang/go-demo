@@ -21,7 +21,6 @@ func mostCompetitive1673(nums []int, k int) []int {
 				min = n
 				tempIndex = j + index
 			} else if n == min {
-
 				count++
 				tempIndex = j + index
 				fmt.Println("count", count, "at", j+index)
